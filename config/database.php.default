@@ -1,0 +1,51 @@
+<?php
+class DatabaseConfig {
+  var $serverName;
+  var $userName;
+  var $password;
+  var $database;
+  var $connection; // connection object
+
+  function __construct(
+    $serverName = "localhost",
+    $userName = "root",
+    $password = "minhthu92",
+    $database = "airline_ws"){
+
+    $this->serverName = $serverName;
+    $this->userName = $userName;
+    $this->password = $password;
+    $this->database = $database;
+
+    $this->openConnection();
+  }
+
+  function openConnection(){
+    $this->connection = mysql_connect($this->serverName, $this->userName, $this->password);
+    if (!$this->connection){
+      die("Connection to " . $this->serverName . " is lost!");
+    }
+
+    $selected = mysql_select_db($this->database, $this->connection)
+      or die("Could not select " . $this->database);
+  }
+
+  function query($query){
+    $result = mysql_query($query);
+    if (!$result){
+      die("Invalid query: " . mysql_error());
+    }
+    return $result;
+  }
+
+  function existed($table, $column, $value){
+    $query = "select * from " . $table . " where " . $column . " = '" . $value . "'";
+    $result =$this->query($query);
+    // echo $query . "<br>";
+    return mysql_num_rows($result) != 0;
+  }
+
+  function __destruct(){
+    mysql_close($this->connection);
+  }
+}
