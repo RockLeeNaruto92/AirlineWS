@@ -20,6 +20,18 @@ $server->register("addNewAirlineAgency",
   "Add new airlines agency"
   );
 
+// addNewFlight
+$server->register("addNewFlight",
+  array("id" => "xsd:string", "airline_id" => "xsd:string", "start_time" => "xsd:string", "end_time" => "xsd:string",
+    "starting_point" => "xsd:string", "destination" => "xsd:string", "total_seats" => "xsd:integer", "cost" => "xsd:integer"), // input params
+  array("return" => "xsd:integer"), // output
+  "urn:airlines", // namespace
+  "urn:airlines#addNewFlight",
+  "rpc",
+  "encoded",
+  "Add new flight"
+  );
+
 // deploy services
 $HTTP_RAW_POST_DATA = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : "";
 $server->service($HTTP_RAW_POST_DATA);
