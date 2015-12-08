@@ -76,8 +76,8 @@ function addNewFlight($id = NULL, $airline_id = NULL, $start_time = NULL, $end_t
   }
 
   // When all check is ok
-  $query = "INSERT INTO flights(id, airline_id, start_time, end_time, starting_point, destination, total_seats, cost)";
-  $query .= "VALUES('$id', '$airline_id', '$start_time', '$end_time', '$starting_point', '$destination', $total_seats, $cost)";
+  $query = "INSERT INTO flights(id, airline_id, start_time, end_time, starting_point, destination, total_seats, available_seats, cost)";
+  $query .= "VALUES('$id', '$airline_id', '$start_time', '$end_time', '$starting_point', '$destination', $total_seats, $total_seats, $cost)";
 
   $result = $db->query($query);
   unset($db);
@@ -117,7 +117,7 @@ function findFlight($id = NULL){
   }
 }
 
-// checking
+// ok
 function addNewContract($flight_id = NULL, $customer_id_number = NULL,
   $company_name = NULL, $company_phone = NULL, $company_address = NULL,
   $booking_seats = 0, $payment_method = NULL){
@@ -145,15 +145,41 @@ function addNewContract($flight_id = NULL, $customer_id_number = NULL,
     unset($db);
     return 6; // "error_message" => "Flight id is not existed in databse"
   }
+
+  // Check booking_seat is available
+  if ($result["available_seats"] < $booking_seats){
+    unset($db);
+    return 7; // "error_message" => "Availabe seats is not enough"
+  }
+  $available_seats = $result["available_seats"] - $booking_seats;
   $total_money = $booking_seats * $result["cost"];
 
   $query = "INSERT INTO contracts(flight_id, customer_id_number, company_name, company_phone, company_address, booking_seats, payment_method, total_money)";
   $query .= "VALUES('$flight_id', '$customer_id_number', '$company_name', '$company_phone', '$company_address', '$booking_seats', '$payment_method', '$total_money')";
 
   $result = $db->query($query);
+  if (!$result){
+    unset($db);
+    return 8; // "error_message" => "Error on execution query"
+  }
+
+  $query = "UPDATE flights SET available_seats = $available_seats WHERE id = '$flight_id'";
+  $result = $db->query($query);
   unset($db);
 
   if ($result) return -1; // OK
-  else return 7; // "error_message" => "Error on execution query"
+  else return 8; // "error_message" => "Error on execution query"
+}
+
+// checking
+function checkSeatAvailable($flight_id = NULL){
+  if (isEmpty($flight_id)) return 0; // "error_message" => "Flight id is not present"
+
+  $db = new DatabaseConfig;
+  $result = $db->existed("flights", "id", $flight_id);
+  unset($db);
+
+  if (!$result) return 1; // "error_message" => "Flight id is not existed in database"
+  return -1; // OK
 }
 ?>
