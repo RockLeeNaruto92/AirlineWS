@@ -1,0 +1,155 @@
+<definitions xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tns="urn:airlines" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns="http://schemas.xmlsoap.org/wsdl/" targetNamespace="urn:airlines">
+  <types>
+    <xsd:schema targetNamespace="urn:airlines">
+      <xsd:import namespace="http://schemas.xmlsoap.org/soap/encoding/"/>
+      <xsd:import namespace="http://schemas.xmlsoap.org/wsdl/"/>
+    </xsd:schema>
+  </types>
+  <message name="addNewAirlineAgencyRequest">
+    <part name="code" type="xsd:string"/>
+    <part name="name" type="xsd:string"/>
+    <part name="website" type="xsd:string"/>
+  </message>
+  <message name="addNewAirlineAgencyResponse">
+    <part name="return" type="xsd:integer"/>
+  </message>
+  <message name="addNewFlightRequest">
+    <part name="id" type="xsd:string"/>
+    <part name="airline_id" type="xsd:string"/>
+    <part name="start_time" type="xsd:string"/>
+    <part name="end_time" type="xsd:string"/>
+    <part name="starting_point" type="xsd:string"/>
+    <part name="destination" type="xsd:string"/>
+    <part name="total_seats" type="xsd:integer"/>
+    <part name="cost" type="xsd:integer"/>
+  </message>
+  <message name="addNewFlightResponse">
+    <part name="return" type="xsd:integer"/>
+  </message>
+  <message name="isFlightExistedRequest">
+    <part name="id" type="xsd:string"/>
+  </message>
+  <message name="isFlightExistedResponse">
+    <part name="return" type="xsd:integer"/>
+  </message>
+  <message name="findFlightRequest">
+    <part name="id" type="xsd:string"/>
+  </message>
+  <message name="findFlightResponse">
+    <part name="return" type="xsd:string"/>
+  </message>
+  <message name="addNewContractRequest">
+    <part name="flight_id" type="xsd:string"/>
+    <part name="customer_id_number" type="xsd:string"/>
+    <part name="company_name" type="xsd:string"/>
+    <part name="company_phone" type="xsd:string"/>
+    <part name="company_address" type="xsd:string"/>
+    <part name="booking_seats" type="xsd:integer"/>
+    <part name="payment_method" type="xsd:string"/>
+  </message>
+  <message name="addNewContractResponse">
+    <part name="return" type="xsd:integer"/>
+  </message>
+  <message name="checkSeatAvailableRequest">
+    <part name="id" type="xsd:string"/>
+  </message>
+  <message name="checkSeatAvailableResponse">
+    <part name="return" type="xsd:integer"/>
+  </message>
+  <portType name="airlinesPortType">
+    <operation name="addNewAirlineAgency">
+      <documentation>Add new airlines agency</documentation>
+      <input message="tns:addNewAirlineAgencyRequest"/>
+      <output message="tns:addNewAirlineAgencyResponse"/>
+    </operation>
+    <operation name="addNewFlight">
+      <documentation>Add new flight</documentation>
+      <input message="tns:addNewFlightRequest"/>
+      <output message="tns:addNewFlightResponse"/>
+    </operation>
+    <operation name="isFlightExisted">
+      <documentation>Check flight is existed or not</documentation>
+      <input message="tns:isFlightExistedRequest"/>
+      <output message="tns:isFlightExistedResponse"/>
+    </operation>
+    <operation name="findFlight">
+      <documentation>Find a flight with id</documentation>
+      <input message="tns:findFlightRequest"/>
+      <output message="tns:findFlightResponse"/>
+    </operation>
+    <operation name="addNewContract">
+      <documentation>Add new contract</documentation>
+      <input message="tns:addNewContractRequest"/>
+      <output message="tns:addNewContractResponse"/>
+    </operation>
+    <operation name="checkSeatAvailable">
+      <documentation>
+        Check a flight with flight_id have available seats or not
+      </documentation>
+      <input message="tns:checkSeatAvailableRequest"/>
+      <output message="tns:checkSeatAvailableResponse"/>
+    </operation>
+  </portType>
+  <binding name="airlinesBinding" type="tns:airlinesPortType">
+    <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <operation name="addNewAirlineAgency">
+      <soap:operation soapAction="urn:airlines#addNewAirlineAgency" style="rpc"/>
+      <input>
+        <soap:body use="encoded" namespace="urn:airlines" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="urn:airlines" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+    <operation name="addNewFlight">
+      <soap:operation soapAction="urn:airlines#addNewFlight" style="rpc"/>
+      <input>
+        <soap:body use="encoded" namespace="urn:airlines" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="urn:airlines" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+    <operation name="isFlightExisted">
+      <soap:operation soapAction="urn:airlines#isFlightExisted" style="rpc"/>
+      <input>
+        <soap:body use="encoded" namespace="urn:airlines" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="urn:airlines" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+    <operation name="findFlight">
+      <soap:operation soapAction="urn:airlines#findFlight" style="rpc"/>
+      <input>
+        <soap:body use="encoded" namespace="urn:airlines" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="urn:airlines" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+    <operation name="addNewContract">
+      <soap:operation soapAction="urn:airlines#addNewContract" style="rpc"/>
+      <input>
+        <soap:body use="encoded" namespace="urn:airlines" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="urn:airlines" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+    <operation name="checkSeatAvailable">
+      <soap:operation soapAction="urn:airlines#checkSeatAvailable" style="rpc"/>
+      <input>
+        <soap:body use="encoded" namespace="urn:airlines" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="urn:airlines" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+  </binding>
+  <service name="airlines">
+    <port name="airlinesPort" binding="tns:airlinesBinding">
+      <soap:address location="http://localhost/AirlineWS/services.php"/>
+    </port>
+  </service>
+</definitions>
