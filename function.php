@@ -33,7 +33,7 @@ function addNewAirlineAgency($code = NULL, $name = NULL, $website = NULL){
   else return 0; // "error_message" => "Error on interact with database."
 }
 
-// checking
+// OK
 function addNewFlight($id = NULL, $airline_id = NULL, $start_time = NULL, $end_time = NULL,
   $starting_point = NULL, $destination = NULL, $total_seats = NULL, $cost = NULL){
 
@@ -83,5 +83,16 @@ function addNewFlight($id = NULL, $airline_id = NULL, $start_time = NULL, $end_t
   unset($db);
   if ($result) return -1; // OK
   else return 12; // "error_message" => "Error on execution query."
+}
+
+// checking
+function isFlightExisted($id = NULL){
+  if (isEmpty($id)) return 0; // "error_message" => "Id is not present."
+
+  $db = new DatabaseConfig;
+  $existed = $db->existed("flights", "id", $id);
+  unset($db);
+  if ($existed) return -1; // OK
+  else return 1; // "error_message" => "ID is not existed in database"
 }
 ?>
