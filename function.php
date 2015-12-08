@@ -96,7 +96,7 @@ function isFlightExisted($id = NULL){
   else return 1; // "error_message" => "ID is not existed in database"
 }
 
-// checking
+// ok
 function findFlight($id = NULL){
   if (isEmpty($id)) return "Id is not present"; // "error_message" => "Id is not present."
 
@@ -115,5 +115,45 @@ function findFlight($id = NULL){
 
     return json_encode($data); // OK
   }
+}
+
+// checking
+function addNewContract($flight_id = NULL, $customer_id_number = NULL,
+  $company_name = NULL, $company_phone = NULL, $company_address = NULL,
+  $booking_seats = 0, $payment_method = NULL){
+  // Check customer_id_number
+  if (isEmpty($customer_id_number)) return 0; // "error_message" => "Customer id number is not present"
+
+  // Check company_name
+  if (isEmpty($company_name)) return 1; // "error_message" => "Company name is not present"
+
+  // Check company_phone
+  if (isEmpty($company_phone)) return 2; // "error_message" => "Company phone is not present"
+
+  // Check booking seats
+  if ($booking_seats == 0) return 3; // "error_message" => "Booking seats number must be greater than 0"
+
+  // Check payment method
+  if (isEmpty($payment_method)) return 4; // "error_message" => "Payment method is not present"
+
+  // Check flight_id
+  if (isEmpty($flight_id)) return 5; // "error_message" => "Flight id is not present"
+
+  $db = new DatabaseConfig;
+  $result = $db->existed("flights", "id", $flight_id);
+  if (!$result){
+    unset($db);
+    return 6; // "error_message" => "Flight id is not existed in databse"
+  }
+  $total_money = $booking_seats * $result["cost"];
+
+  $query = "INSERT INTO contracts(flight_id, customer_id_number, company_name, company_phone, company_address, booking_seats, payment_method, total_money)";
+  $query .= "VALUES('$flight_id', '$customer_id_number', '$company_name', '$company_phone', '$company_address', '$booking_seats', '$payment_method', '$total_money')";
+
+  $result = $db->query($query);
+  unset($db);
+
+  if ($result) return -1; // OK
+  else return 7; // "error_message" => "Error on execution query"
 }
 ?>
