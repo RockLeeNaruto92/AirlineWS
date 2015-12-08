@@ -6,6 +6,8 @@ class DatabaseConfig {
   var $database;
   var $connection; // connection object
 
+  public static $FLIGHTS = array("id", "airline_id", "start_time", "end_time", "starting_point", "destination", "total_seats", "cost");
+
   function __construct(
     $serverName = "localhost",
     $userName = "root",

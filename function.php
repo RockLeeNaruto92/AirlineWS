@@ -85,7 +85,7 @@ function addNewFlight($id = NULL, $airline_id = NULL, $start_time = NULL, $end_t
   else return 12; // "error_message" => "Error on execution query."
 }
 
-// checking
+// ok
 function isFlightExisted($id = NULL){
   if (isEmpty($id)) return 0; // "error_message" => "Id is not present."
 
@@ -94,5 +94,26 @@ function isFlightExisted($id = NULL){
   unset($db);
   if ($existed) return -1; // OK
   else return 1; // "error_message" => "ID is not existed in database"
+}
+
+// checking
+function findFlight($id = NULL){
+  if (isEmpty($id)) return "Id is not present"; // "error_message" => "Id is not present."
+
+  $db = new DatabaseConfig;
+  $query = "SELECT * FROM flights WHERE id = '$id'";
+  $result = $db->query($query);
+  unset($db);
+
+  if (mysql_num_rows($result) == 0) return "Id is not existed in database"; // "error_message" => "Id is not existed in database"
+  else {
+    $row = mysql_fetch_array($result);
+    $data = array();
+
+    foreach (DatabaseConfig::$FLIGHTS as $flight)
+      $data[$flight] = $row[$flight];
+
+    return json_encode($data); // OK
+  }
 }
 ?>
