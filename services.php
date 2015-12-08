@@ -32,6 +32,17 @@ $server->register("addNewFlight",
   "Add new flight"
   );
 
+// isFlightExisted
+$server->register("isFlightExisted",
+  array("id" => "xsd:string"), // input params
+  array("return" => "xsd:integer"), // output
+  "urn:airlines", // namespace
+  "urn:airlines#isFlightExisted",
+  "rpc",
+  "encoded",
+  "Check flight is existed or not"
+  );
+
 // deploy services
 $HTTP_RAW_POST_DATA = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : "";
 $server->service($HTTP_RAW_POST_DATA);
