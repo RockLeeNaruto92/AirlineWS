@@ -68,6 +68,17 @@ $server->register("addNewContract",
   "Add new contract"
   );
 
+// checkSeatAvailable
+$server->register("checkSeatAvailable",
+  array("id" => "xsd:string"), // input params
+  array("return" => "xsd:integer"), // output
+  "urn:airlines", // namespace
+  "urn:airlines#checkSeatAvailable",
+  "rpc",
+  "encoded",
+  "Check a flight with flight_id have available seats or not"
+  );
+
 // deploy services
 $HTTP_RAW_POST_DATA = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : "";
 $server->service($HTTP_RAW_POST_DATA);

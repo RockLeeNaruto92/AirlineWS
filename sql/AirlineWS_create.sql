@@ -56,6 +56,7 @@ CREATE TABLE flights (
     starting_point varchar(45)  NOT NULL,
     destination varchar(45)  NOT NULL,
     total_seats int  NOT NULL,
+    available_seats int NOT NULL,
     cost int  NOT NULL,
     CONSTRAINT flights_pk PRIMARY KEY (id)
 )ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
