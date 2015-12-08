@@ -54,6 +54,20 @@ $server->register("findFlight",
   "Find a flight with id"
   );
 
+// addNewContract
+$server->register("addNewContract",
+  array("flight_id" => "xsd:string", "customer_id_number" => "xsd:string",
+    "company_name" => "xsd:string", "company_phone" => "xsd:string",
+    "company_address" => "xsd:string", "booking_seats" => "xsd:integer",
+    "payment_method" => "xsd:string"), // input params
+  array("return" => "xsd:integer"), // output
+  "urn:airlines", // namespace
+  "urn:airlines#addNewContract",
+  "rpc",
+  "encoded",
+  "Add new contract"
+  );
+
 // deploy services
 $HTTP_RAW_POST_DATA = isset($HTTP_RAW_POST_DATA) ? $HTTP_RAW_POST_DATA : "";
 $server->service($HTTP_RAW_POST_DATA);
