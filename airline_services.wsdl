@@ -56,6 +56,10 @@
   <message name="checkSeatAvailableResponse">
     <part name="return" type="xsd:integer"/>
   </message>
+  <message name="getAllFlightsRequest"/>
+  <message name="getAllFlightsResponse">
+    <part name="return" type="xsd:string"/>
+  </message>
   <portType name="airlinesPortType">
     <operation name="addNewAirlineAgency">
       <documentation>Add new airlines agency</documentation>
@@ -88,6 +92,11 @@
       </documentation>
       <input message="tns:checkSeatAvailableRequest"/>
       <output message="tns:checkSeatAvailableResponse"/>
+    </operation>
+    <operation name="getAllFlights">
+      <documentation>Get all flights</documentation>
+      <input message="tns:getAllFlightsRequest"/>
+      <output message="tns:getAllFlightsResponse"/>
     </operation>
   </portType>
   <binding name="airlinesBinding" type="tns:airlinesPortType">
@@ -139,6 +148,15 @@
     </operation>
     <operation name="checkSeatAvailable">
       <soap:operation soapAction="urn:airlines#checkSeatAvailable" style="rpc"/>
+      <input>
+        <soap:body use="encoded" namespace="urn:airlines" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </input>
+      <output>
+        <soap:body use="encoded" namespace="urn:airlines" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+      </output>
+    </operation>
+    <operation name="getAllFlights">
+      <soap:operation soapAction="urn:airlines#getAllFlights" style="rpc"/>
       <input>
         <soap:body use="encoded" namespace="urn:airlines" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
       </input>
