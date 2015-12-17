@@ -171,7 +171,7 @@ function addNewContract($flight_id = NULL, $customer_id_number = NULL,
   else return 8; // "error_message" => "Error on execution query"
 }
 
-// checking
+// ok
 function checkSeatAvailable($flight_id = NULL){
   if (isEmpty($flight_id)) return 0; // "error_message" => "Flight id is not present"
 
@@ -181,5 +181,23 @@ function checkSeatAvailable($flight_id = NULL){
 
   if (!$result) return 1; // "error_message" => "Flight id is not existed in database"
   return -1; // OK
+}
+
+// ok
+function getAllFlights(){
+  $db = new DatabaseConfig;
+  $query = "SELECT airlines.name, flights.* FROM flights, airlines WHERE flights.airline_id = airlines.id";
+  $result = $db->query($query);
+  unset($db);
+
+  if (!$result) return "Travel WS have 0 places";
+  $data = array();
+  while ($row = mysql_fetch_array($result)){
+    $rowData = array();
+    foreach (DatabaseConfig::$FLIGHTS_WITH_AIRLINE_NAME as $value)
+      $rowData[$value] = $row[$value];
+    $data[] = $rowData;
+  }
+  return json_encode($data);
 }
 ?>
